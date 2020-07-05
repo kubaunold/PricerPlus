@@ -129,6 +129,7 @@
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- table header -->
@@ -139,10 +140,12 @@
                         <TextBlock Grid.Row="1" Grid.Column="4" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Principal"/>
                         <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Value"/>
                         <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="CanBeDeferred"/>
+                        <TextBlock Grid.Row="1" Grid.Column="7" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Value (inluding interest rate)"/>
+
 
 
                         <!-- items -->
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7" ItemsSource="{Binding Trades}" >
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" ItemsSource="{Binding Trades}" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:PaymentViewModel}">
                                     <Grid>
@@ -154,6 +157,7 @@
                                             <ColumnDefinition Width="180"/>
                                             <ColumnDefinition Width="180"/>
                                             <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="200"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Button Width="50" Command="{Binding DataContext.RemoveTrade, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
@@ -163,6 +167,7 @@
                                         <TextBox Grid.Column="4" TextAlignment="Right" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Principal, StringFormat=N2}"/>
                                         <TextBlock Grid.Column="5" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding Value, Mode=OneWay, Converter={StaticResource stripOption}}"/>
                                         <CheckBox Grid.Column="6" Width="Auto" Margin="4" HorizontalAlignment="Center" IsChecked="{Binding CanBeDeferred}"/>
+                                        <TextBlock Grid.Column="7" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding ValuePlusInterest, Mode=OneWay, Converter={StaticResource stripOption}}"/>
                                         <!--<TextBox Grid.Column="6" TextAlignment="Center" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding CanBeDeferred}"/>-->
                                     </Grid>
                                 </DataTemplate>

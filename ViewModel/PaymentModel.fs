@@ -62,7 +62,7 @@ type PaymentValuationInputs =
     }
 
 (* The valuation model for Payment. We may have multiple valuation models implementations per given trade type, or have a valuation model that handles multiple trade types. *)
-type PaymentValuationModel(inputs: PaymentValuationInputs) = 
+type PaymentValuationModel (inputs:PaymentValuationInputs) = 
     (* Calculate() method returns a value of given trade. This one is very simple, yet demonstrates some concepts.
     
     It will try to return the result in the global default currency as configured by valuation::baseCurrency key.
@@ -99,3 +99,40 @@ type PaymentValuationModel(inputs: PaymentValuationInputs) =
             { Value = (float inputs.Trade.Principal)  / fxRate * haircutN; Currency = finalCcy }
         else
         { Value = (float inputs.Trade.Principal)  / fxRate; Currency = finalCcy }
+
+    member this.CalculatePlusInterest() : Money = 
+        let tradeCcy = inputs.Trade.Currency
+        let targetCcy = match inputs.CalculationsParameters.TryFind "valuation::baseCurrency" with
+        | Some ccy -> ccy
+        | None -> tradeCcy
+        let fxRateKey = sprintf "FX::%s%s" targetCcy tradeCcy
+        let fxRate = if inputs.Data.ContainsKey fxRateKey then float inputs.Data.[ fxRateKey ] else 1.0 // lookup FX rate
+        let finalCcy = if inputs.Data.ContainsKey fxRateKey then targetCcy else tradeCcy
+        
+        let haircutS = match inputs.CalculationsParameters.TryFind "valuation::deferredHaircut" with
+                         | Some haircut -> haircut
+                         | None -> "9"
+        let haircutN = 
+            try float haircutS
+            with
+            | _ -> 0.1
+
+        //interestRate as a string
+        let interestRateS = match inputs.Data.TryFind "interestRate::percentage" with
+                            | Some rate -> rate
+                            | None -> "0"
+        //try convert as a number
+        let interestRateN =
+            try float interestRateS
+            with
+            | _ -> 0.
+            
+
+        if inputs.CalculationsParameters.ContainsKey "valuation::deferredHaircut" && inputs.Trade.CanBeDeferred.Equals true
+        then
+            let ValuePlusRate = (float inputs.Trade.Principal*(1.+interestRateN/100.))  / fxRate * haircutN
+            //let ValuePlusInterest = Value + Value
+            { Value = ValuePlusRate ; Currency = finalCcy }
+        else
+
+        { Value = (float inputs.Trade.Principal)*(1.+interestRateN/100.)  / fxRate; Currency = finalCcy }

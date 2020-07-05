@@ -43,6 +43,12 @@ type PaymentViewModel(input : PaymentRecord) =
             userInput <- {userInput with CanBeDeferred = x }
             base.Notify("CanBeDeferred")
 
+    member this.ValuePlusInterest
+        with get() = value
+        and set(x) = 
+            value <- x
+            base.Notify("ValuePlusInterest")
+
     // Invoke the valuation based on user input
     member this.Calculate(data : DataConfiguration, calculationParameters : CalculationConfiguration) = 
         
@@ -62,9 +68,11 @@ type PaymentViewModel(input : PaymentRecord) =
             }
         //calculate
         let calc = PaymentValuationModel(paymentInputs).Calculate()
+        let calcPlusInterest = PaymentValuationModel(paymentInputs).CalculatePlusInterest()
 
         //present to the user
         this.Value <- Option.Some (calc)
+        this.ValuePlusInterest <- Option.Some (calcPlusInterest)
 
 (* summary row. there is little functionality here, so this is very brief. *)
 type SummaryRow = 
