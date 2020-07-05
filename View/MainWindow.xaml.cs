@@ -10,5 +10,10 @@ namespace View
             InitializeComponent();
             DataContext = new ViewModel.MainViewModel();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -34,9 +34,14 @@
                 </Style>
                 <vm:OptionDoubleToDoubleConverter x:Key="stripOption"/>
             </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="42*"/>
+                <ColumnDefinition Width="309*"/>
+                <ColumnDefinition Width="457*"/>
+            </Grid.ColumnDefinitions>
 
             <!-- SUMMARY -->
-            <materialDesign:Card Grid.Row="1">
+            <materialDesign:Card Grid.Row="1" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -75,7 +80,7 @@
             </materialDesign:Card>
 
             <!-- TRADES -->
-            <materialDesign:Card Grid.Row="2">
+            <materialDesign:Card Grid.Row="2" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -103,7 +108,7 @@
                     <StackPanel Grid.Column="0" Grid.Row="1">
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearTrades}" Content="Clear"/>
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding Calculate}" Content="Recalculate all"/>
-                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddTrade}" Content="New"/>
+                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddTrade}" Content="New" Click="Button_Click"/>
                     </StackPanel>
 
                     <!-- trades grid -->
@@ -168,7 +173,7 @@
             </materialDesign:Card>
 
             <!-- MARKET DATA -->
-            <materialDesign:Card Grid.Row="3">
+            <materialDesign:Card Grid.Row="3" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -226,7 +231,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="40" Command="{Binding DataContext.RemoveMarketData, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
+                                        <Button Width="50" Command="{Binding DataContext.RemoveMarketData, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
                                     </StackPanel>
@@ -240,7 +245,7 @@
             </materialDesign:Card>
 
             <!-- CONFIGURATION DATA -->
-            <materialDesign:Card Grid.Row="4">
+            <materialDesign:Card Grid.Row="4" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -310,7 +315,7 @@
             </materialDesign:Card>
 
             <!-- CHARTS -->
-            <materialDesign:Card Grid.Row="5">
+            <materialDesign:Card Grid.Row="5" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
