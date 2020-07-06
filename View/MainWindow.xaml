@@ -15,11 +15,12 @@
         Title="Pricer App"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1641" d:DesignHeight="979">
+        FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1785" d:DesignHeight="1415.5">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -352,6 +353,88 @@
 
                 </Grid>
             </materialDesign:Card>
+
+
+
+            <!-- BLACK-SCHOLES MODEL -->
+            <materialDesign:Card Grid.Row="6" Grid.ColumnSpan="3" Margin="14,14,14,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="40"/>
+                        <RowDefinition Height="71"/>
+                        <RowDefinition Height="0"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto" MinWidth="751"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- card header -->
+                    <TextBlock 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Margin="4,10,0,24"
+                        Style="{DynamicResource MaterialDesignTitleTextBlock}" 
+                        Width="187"
+                        HorizontalAlignment="Left"
+                        TextAlignment="Center">
+                        <TextBlock.ToolTip>
+                            <ToolTip Style="{DynamicResource MaterialDesignToolTip}">
+                                This module allows to simulate stock prices using Geometric Brownian Motion Simulation and then estimate option price based on BS model.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                        Black-Scholes Model <LineBreak/>Option Pricing
+                    </TextBlock>
+
+                    <!-- action buttons -->
+                    <StackPanel Grid.Column="0" Grid.Row="1">
+                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearCalcParameter}" Content="Clear"/>
+                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddCalcParameter}" Content="New"/>
+                    </StackPanel>
+
+                    <Grid Grid.Column="1" Grid.Row="1">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- table header -->
+
+                        <!-- market data & configuration grid -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Key"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Value"/>
+
+                        <!-- items -->
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding CalculationParameters}" Margin="6" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="40" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
+                                        <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
+                                        <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Grid>
+            </materialDesign:Card>
+
+
+
+
+
         </Grid>
     </ScrollViewer>
 </Window>
