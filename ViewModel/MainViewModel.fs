@@ -32,12 +32,12 @@ type MainViewModel() =
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpSize"; Value = "0.0001" })
         calculationParameters.Add(ConfigurationViewModel { Key = "valuation::deferredHaircut"; Value = "1.5" })
 
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::years"; Value = "2" })
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::steps"; Value = "200" })
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::price"; Value = "7.8" })
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::drift"; Value = "0.14" })
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::volatility"; Value = "0.20" })
-        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::seed"; Value = "5" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::years"; Value = "2" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::steps"; Value = "200" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::price"; Value = "7.8" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::drift"; Value = "0.14" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::volatility"; Value = "0.20" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::seed"; Value = "5" })
         simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::strike"; Value = "5.0" })
         simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::maturity"; Value = "1.0" })
         
@@ -100,6 +100,11 @@ type MainViewModel() =
     let removeCalcParameterRecord = SimpleCommand (fun record -> calculationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
     let clearCalcParameterRecord = SimpleCommand (fun _ -> calculationParameters.Clear ())
 
+    (* simulation parameters commands *)
+    let addSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Add(ConfigurationViewModel { Key = ""; Value = "" }))
+    let removeSimParameterRecord = SimpleCommand (fun record -> simulationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
+    let clearSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Clear ())
+
     (* automatically update summary when dependency data changes (entries added/removed)  *)
     do
         trades.CollectionChanged.Add calculateFun
@@ -120,6 +125,10 @@ type MainViewModel() =
     member this.AddCalcParameter = addCalcParameterRecord 
     member this.RemoveCalcParameter = removeCalcParameterRecord 
     member this.ClearCalcParameter = clearCalcParameterRecord
+
+    member this.AddSimParameter = addSimParameterRecord 
+    member this.RemoveSimParameter = removeSimParameterRecord 
+    member this.ClearSimParameter = clearSimParameterRecord
 
 
     (* data fields *)

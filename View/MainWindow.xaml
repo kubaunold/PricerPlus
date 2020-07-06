@@ -388,8 +388,8 @@
 
                     <!-- action buttons -->
                     <StackPanel Grid.Column="0" Margin="0,82,0,0">
-                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearCalcParameter}" Content="Clear"/>
-                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddCalcParameter}" Content="New"/>
+                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearSimParameter}" Content="Clear"/>
+                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddSimParameter}" Content="New"/>
                     </StackPanel>
 
                     <Grid Grid.Column="1" Margin="0,82,0,0">
@@ -418,7 +418,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <!--<Button Width="Auto" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>-->
+                                        <Button Width="Auto" Command="{Binding DataContext.RemoveSimParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
                                     </StackPanel>
