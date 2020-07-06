@@ -1,7 +1,6 @@
 ﻿namespace ViewModel
 
 open System
-open System
 
 (* A type representing given amount of money in specific currency. Very bare bones, could be extended in various ways. Some examples:
 1. Multiplication by float so that $1 * 100 = $100.

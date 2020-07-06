@@ -13,6 +13,7 @@ type MainViewModel() =
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
+    let simulationParameters = ObservableCollection<ConfigurationViewModel>()   //parameters of GBM and BS
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
@@ -30,6 +31,16 @@ type MainViewModel() =
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpRisk"; Value = "True" })
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpSize"; Value = "0.0001" })
         calculationParameters.Add(ConfigurationViewModel { Key = "valuation::deferredHaircut"; Value = "1.5" })
+
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::years"; Value = "2" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::steps"; Value = "200" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::price"; Value = "7.8" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::drift"; Value = "0.14" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::volatility"; Value = "0.20" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::seed"; Value = "5" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::strike"; Value = "5.0" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::maturity"; Value = "1.0" })
+        
 
     let summary = ObservableCollection<SummaryRow>()
 
@@ -94,6 +105,7 @@ type MainViewModel() =
         trades.CollectionChanged.Add calculateFun
         data.CollectionChanged.Add calculateFun
         calculationParameters.CollectionChanged.Add calculateFun
+        simulationParameters.CollectionChanged.Add calculateFun
 
     (* commands *)
     member this.AddTrade = addTrade 
@@ -107,13 +119,14 @@ type MainViewModel() =
     
     member this.AddCalcParameter = addCalcParameterRecord 
     member this.RemoveCalcParameter = removeCalcParameterRecord 
-    member this.ClearCalcParameter = clearCalcParameterRecord 
+    member this.ClearCalcParameter = clearCalcParameterRecord
 
 
     (* data fields *)
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
+    member this.SimulationParameters = simulationParameters
 
     member this.Summary = summary
 

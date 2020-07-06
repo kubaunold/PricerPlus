@@ -309,7 +309,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="40" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
+                                        <Button Width="Auto" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
                                     </StackPanel>
@@ -360,13 +360,12 @@
             <materialDesign:Card Grid.Row="6" Grid.ColumnSpan="3" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" MinHeight="40"/>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="0"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="Auto" MinWidth="751"/>
+                        <ColumnDefinition Width="Auto" MinWidth="791"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
@@ -374,7 +373,7 @@
                     <TextBlock 
                         Grid.Row="0" 
                         Grid.Column="0"
-                        Margin="4,10,0,24"
+                        Margin="4,10,0,95"
                         Style="{DynamicResource MaterialDesignTitleTextBlock}" 
                         Width="187"
                         HorizontalAlignment="Left"
@@ -388,21 +387,20 @@
                     </TextBlock>
 
                     <!-- action buttons -->
-                    <StackPanel Grid.Column="0" Grid.Row="1">
+                    <StackPanel Grid.Column="0" Margin="0,82,0,0">
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearCalcParameter}" Content="Clear"/>
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddCalcParameter}" Content="New"/>
                     </StackPanel>
 
-                    <Grid Grid.Column="1" Grid.Row="1">
+                    <Grid Grid.Column="1" Margin="0,82,0,0">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -412,15 +410,15 @@
                         <!-- table header -->
 
                         <!-- market data & configuration grid -->
-                        <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Key"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Parameter"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Value"/>
 
                         <!-- items -->
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding CalculationParameters}" Margin="6" >
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding SimulationParameters}" Margin="6" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="40" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
+                                        <!--<Button Width="Auto" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>-->
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
                                     </StackPanel>
