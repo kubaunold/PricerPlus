@@ -7,7 +7,9 @@ type PaymentViewModel(input : PaymentRecord) =
     let mutable userInput = input
     let mutable value : Money option = None
 
-    member this.TradeName 
+
+
+    member this.TradeName
         with get() = userInput.TradeName
         and set(x) = 
             userInput <- {userInput with TradeName = x }
@@ -80,3 +82,4 @@ type SummaryRow =
         Currency: string
         Value : float
     }
+

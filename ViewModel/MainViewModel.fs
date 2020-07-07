@@ -17,6 +17,7 @@ type MainViewModel() =
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
+    let getSimulationConfiguration () = simulationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     
     (* add some dummy data rows *)
     do
@@ -43,37 +44,30 @@ type MainViewModel() =
         
 
     let summary = ObservableCollection<SummaryRow>()
+    let simulationOutput = ObservableCollection<SimulationOutput>()
 
     (* trade commands *)
     let refreshSummary() = 
         summary.Clear()
-        
         trades 
         |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
         |> Seq.groupBy(fun m -> m.Currency)  // group by currency
         |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
         |> Seq.iter(summary.Add) // add to summary page
-
     let calculateFun _ = do
             trades |> Seq.iter(fun trade -> trade.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
             refreshSummary()
-
     let calculate = SimpleCommand calculateFun
-
     let addTrade = SimpleCommand(fun _ -> 
             let currentConfig = getCalculationConfiguration ()
             PaymentRecord.Random currentConfig |> PaymentViewModel |> trades.Add
             )
-
     let removeTrade = SimpleCommand(fun trade -> trades.Remove (trade :?> PaymentViewModel) |> ignore)
     let clearTrades = SimpleCommand(fun _ -> trades.Clear () )
 
     (* charting *)
-    
     let chartSeries = SeriesCollection()
-
     let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> x*x) |] 
-
     let addChartSeriesFun _ = do
                 let ls = LineSeries()
                 let multiplier = System.Random().NextDouble()
@@ -82,7 +76,6 @@ type MainViewModel() =
                 let series = seq { for i in 1 .. 100 do yield (0.01 * multiplier * double i) }
                 ls.Values <- ChartValues<float> (Seq.map mapFun series)
                 chartSeries.Add(ls)
-
     let addChartSeries = SimpleCommand addChartSeriesFun
 
     (* add a few series for a good measure *)
@@ -104,6 +97,27 @@ type MainViewModel() =
     let addSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Add(ConfigurationViewModel { Key = ""; Value = "" }))
     let removeSimParameterRecord = SimpleCommand (fun record -> simulationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
     let clearSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Clear ())
+  
+    let calculateSim _ = do
+        let result:SimulationOutput =  simulationParameters |> 
+        result
+    
+    let calculate = SimpleCommand calculateSim
+
+    
+    let refreshSimulation() = 
+        simulationOutput.Clear()
+        let currentResult = 
+        simulationOutput.Add
+        
+
+
+        trades 
+        |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
+        |> Seq.groupBy(fun m -> m.Currency)  // group by currency
+        |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
+        |> Seq.iter(summary.Add) // add to summary page
+
 
     (* automatically update summary when dependency data changes (entries added/removed)  *)
     do

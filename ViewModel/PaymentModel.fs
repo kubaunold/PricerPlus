@@ -95,7 +95,8 @@ type PaymentValuationModel (inputs:PaymentValuationInputs) =
 
         if inputs.CalculationsParameters.ContainsKey "valuation::deferredHaircut" && inputs.Trade.CanBeDeferred.Equals true
         then
-            { Value = (float inputs.Trade.Principal)  / fxRate * haircutN; Currency = finalCcy }
+            let a = { Value = (float inputs.Trade.Principal)  / fxRate * haircutN; Currency = finalCcy }
+            a
         else
         { Value = (float inputs.Trade.Principal)  / fxRate; Currency = finalCcy }
 
