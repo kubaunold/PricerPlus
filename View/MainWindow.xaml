@@ -386,6 +386,38 @@
                         Black-Scholes Model <LineBreak/>Option Pricing
                     </TextBlock>
 
+                    <!--result-->
+                    <Grid  Grid.Row="0" Grid.Column="1" Margin="10,4,10,95">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,4,-315,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Here I will show yo the result"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="BSput"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="BScall"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="sigma"/>
+
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Summary}" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:SummaryRow}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Width="140" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding Currency, Mode=OneWay}"/>
+                                        <TextBlock Width="140" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding Value, Mode=OneWay, StringFormat=N2}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+
+                    <!--<TextBlock Grid.Row="0" Grid.Column="1" Margin="10,4,10,95" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Here I will show yo the result"/>-->
+
                     <!-- action buttons -->
                     <StackPanel Grid.Column="0" Margin="0,82,0,0">
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearSimParameter}" Content="Clear"/>
@@ -408,6 +440,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- table header -->
+
 
                         <!-- market data & configuration grid -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Parameter"/>

@@ -82,4 +82,3 @@ type SummaryRow =
         Currency: string
         Value : float
     }
-

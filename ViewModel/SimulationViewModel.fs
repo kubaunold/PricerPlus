@@ -1,5 +1,12 @@
 ﻿namespace ViewModel
 
+type ResultRow =
+    {
+        BSPut: float
+        BSCall: float
+        sigma: float
+    }
+
 type SimulationViewModel () =
     inherit ViewModelBase()
 
@@ -23,4 +30,3 @@ type SimulationViewModel () =
 
         //present to the user
         this.Result <- Option.Some (calc)
-        

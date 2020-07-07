@@ -44,7 +44,7 @@ type MainViewModel() =
         
 
     let summary = ObservableCollection<SummaryRow>()
-    let simulationOutput = ObservableCollection<SimulationOutput>()
+    let simulationOutput = ObservableCollection<ResultRow>()
 
     (* trade commands *)
     let refreshSummary() = 
@@ -98,25 +98,19 @@ type MainViewModel() =
     let removeSimParameterRecord = SimpleCommand (fun record -> simulationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
     let clearSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Clear ())
   
-    let calculateSim _ = do
-        let result:SimulationOutput =  simulationParameters |> 
-        result
+    let calculateSim _ = 
+        do
+            //let result:SimulationOutput =  simulationParameters |> 
+            //result
+            printfn "Na razie nic"
     
     let calculate = SimpleCommand calculateSim
 
     
-    let refreshSimulation() = 
-        simulationOutput.Clear()
-        let currentResult = 
-        simulationOutput.Add
-        
-
-
-        trades 
-        |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
-        |> Seq.groupBy(fun m -> m.Currency)  // group by currency
-        |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
-        |> Seq.iter(summary.Add) // add to summary page
+    //let refreshSimulation() = 
+    //    simulationOutput.Clear()
+    //    let currentResult = 
+    //    simulationOutput.Add
 
 
     (* automatically update summary when dependency data changes (entries added/removed)  *)
@@ -152,6 +146,7 @@ type MainViewModel() =
     member this.SimulationParameters = simulationParameters
 
     member this.Summary = summary
+    member this.SimulationOutput = simulationOutput
 
     (* charting *)
 
