@@ -185,7 +185,23 @@ type OptionValuationInputs =
         CalculationsParameters: CalculationConfiguration
     }
 
-
+//Params for Geometric Brownian Motion used for simulating stock prices
+type GBMParams = 
+    {
+        //count:int
+        steps:int
+        price:float
+        drift:float
+        vol:float
+        years:int
+        seed:int
+    }
+//Params for Black-Scholes Model for pricing an option
+type BSParams = 
+    {
+        k: float    //strike
+        m: float    //maturity
+    }
 
 type OptionValuationModel (inputs:OptionValuationInputs) = 
     (* Calculate() method returns a value of given trade. This one is very simple, yet demonstrates some concepts.
@@ -265,23 +281,7 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
 
         //simulateGBM count steps price drift vol years seed
 
-        //Params for Geometric Brownian Motion used for simulating stock prices
-        type GBMParams = 
-            {
-                //count:int
-                steps:int
-                price:float
-                drift:float
-                vol:float
-                years:int
-                seed:int
-            }
-        //Params for Black-Scholes Model for pricing an option
-        type BSParams = 
-            {
-                k: float    //strike
-                m: float    //maturity
-            }
+
 
         //simulate and predict option price
         let simulateBlackScholesPutOptionPriceAndDelta (gbm:GBMParams) (bs:BSParams) =
