@@ -24,10 +24,7 @@ type PaymentRecord =    //record as well
         CanBeDeferred : bool
     }
 
-    
 
-
-    
     (* Simple utility method for creating a random payment. *)
     static member sysRandom = System.Random()
     static member Random(configuration : CalculationConfiguration) = 
