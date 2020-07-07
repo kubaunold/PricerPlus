@@ -60,6 +60,8 @@
     <Compile Include="OptionDoubleToDoubleConverter.fs" />
     <Content Include="packages.config" />
     <Compile Include="notes.fs" />
+    <Compile Include="OptionViewModel.fs" />
+    <Compile Include="OptionModel.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LiveCharts">

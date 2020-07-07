@@ -13,6 +13,7 @@ type MainViewModel() =
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
+    let options = ObservableCollection<OptionViewModel>()
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
@@ -114,8 +115,8 @@ type MainViewModel() =
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
-
     member this.Summary = summary
+    member this.Options = options
 
     (* charting *)
 

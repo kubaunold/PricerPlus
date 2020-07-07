@@ -355,7 +355,7 @@
                 </Grid>
             </materialDesign:Card>
 
-            <!-- TRADES -->
+            <!-- OPTIONS -->
             <materialDesign:Card Grid.Row="6" Grid.ColumnSpan="4" Margin="14,14,14,0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -374,10 +374,10 @@
                    Width="120" HorizontalAlignment="Left">
                         <TextBlock.ToolTip>
                             <ToolTip Style="{DynamicResource MaterialDesignToolTip}">
-                                Trades in the portfolio
+                                This module allows to simulate stock prices using Geometric Brownian Motion Simulation and then estimate option price based on BS model.
                             </ToolTip>
                         </TextBlock.ToolTip>
-          Trades
+                        Options
                     </TextBlock>
 
                     <!-- action buttons -->
@@ -410,18 +410,18 @@
 
                         <!-- table header -->
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Trade Name"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Expiry"/>
-                        <TextBlock Grid.Row="1" Grid.Column="3" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Currency"/>
-                        <TextBlock Grid.Row="1" Grid.Column="4" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Principal"/>
-                        <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Value"/>
-                        <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="CanBeDeferred"/>
-                        <TextBlock Grid.Row="1" Grid.Column="7" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="Value (inluding interest rate)"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Name"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Maturity"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Strike"/>
+                        <TextBlock Grid.Row="1" Grid.Column="4" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSput"/>
+                        <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSput delta"/>
+                        <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BScall"/>
+                        <TextBlock Grid.Row="1" Grid.Column="7" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSCall delta"/>
 
 
 
                         <!-- items -->
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" ItemsSource="{Binding Trades}" >
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" ItemsSource="{Binding Options}" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:PaymentViewModel}">
                                     <Grid>
