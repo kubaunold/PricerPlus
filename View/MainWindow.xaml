@@ -403,7 +403,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="BScall"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="sigma"/>
 
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Summary}" >
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Result}" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:SummaryRow}">
                                     <StackPanel Orientation="Horizontal">

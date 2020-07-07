@@ -44,7 +44,7 @@ type MainViewModel() =
         
 
     let summary = ObservableCollection<SummaryRow>()
-    let simulationOutput = ObservableCollection<ResultRow>()
+    //let result = ObservableCollection<ResultRow>()
 
     (* trade commands *)
     let refreshSummary() = 
@@ -146,7 +146,9 @@ type MainViewModel() =
     member this.SimulationParameters = simulationParameters
 
     member this.Summary = summary
-    member this.SimulationOutput = simulationOutput
+    //member this.SimulationOutput = simulationOutput
+
+    //member this.Result = result
 
     (* charting *)
 

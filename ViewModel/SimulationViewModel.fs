@@ -1,11 +1,7 @@
 ﻿namespace ViewModel
 
-type ResultRow =
-    {
-        BSPut: float
-        BSCall: float
-        sigma: float
-    }
+
+
 
 type SimulationViewModel () =
     inherit ViewModelBase()

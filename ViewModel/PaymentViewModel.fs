@@ -77,6 +77,7 @@ type PaymentViewModel(input : PaymentRecord) =
         this.ValuePlusInterest <- Option.Some (calcPlusInterest)
 
 (* summary row. there is little functionality here, so this is very brief. *)
+
 type SummaryRow = 
     {
         Currency: string
