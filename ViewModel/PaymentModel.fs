@@ -133,3 +133,68 @@ type PaymentValuationModel (inputs:PaymentValuationInputs) =
         else
 
         { Value = (float inputs.Trade.Principal)*(1.+interestRateN/100.)  / fxRate; Currency = finalCcy }
+
+
+
+
+(* Model for Option trade. *)
+type OptionRecord =    //record as well
+    {
+        OptionName : string
+        Expiry    : DateTime
+        Currency  : string
+        Strike : float
+        //BSput : float
+        //BSputDelta : float
+        //BScall : float
+        //BScallDelta : float
+    }
+
+
+    (* Simple utility method for creating a random option. *)
+    static member sysRandom = System.Random()
+    static member Random(configuration : CalculationConfiguration) = 
+        (* We pick a random currency either from given short list, or from valuation::knownCurrencies config key *)
+        let knownCurrenciesDefault = [| "EUR"; "USD"; "PLN"; |]
+        
+        let knownCurrencies = if configuration.ContainsKey "valuation::knownCurrencies" 
+                              then configuration.["valuation::knownCurrencies"].Split([|' '|])
+                              else knownCurrenciesDefault
+
+
+        let rnd  = System.Random()
+        //let r = rnd.Next()%2 |> System.Convert.ToBoolean
+
+        
+        {
+            OptionName  = sprintf "Option%04d" (OptionRecord.sysRandom.Next(9999))
+            Expiry      = (DateTime.Now.AddMonths (OptionRecord.sysRandom.Next(2, 12))).Date
+            Currency    = knownCurrencies.[ OptionRecord.sysRandom.Next(knownCurrencies.Length) ]
+            Strike      = OptionRecord.sysRandom.NextDouble()
+            //BSput       = OptionRecord.sysRandom.NextDouble()
+            //BSputDelta  = OptionRecord.sysRandom.NextDouble()
+            //BScall      = OptionRecord.sysRandom.NextDouble()
+            //BScallDelta = OptionRecord.sysRandom.NextDouble()
+        }
+
+(* Complete set of data required for option valuation *)
+type OptionValuationInputs = 
+    {
+        OptionType : OptionRecord
+        Data : DataConfiguration
+        CalculationsParameters: CalculationConfiguration
+    }
+
+
+
+type OptionValuationModel (inputs:OptionValuationInputs) = 
+    (* Calculate() method returns a value of given trade. This one is very simple, yet demonstrates some concepts.
+    
+    It will try to return the result in the global default currency as configured by valuation::baseCurrency key.
+
+    If the valuation::baseCurrency is not defined or we are unable to obtain the FX rate FX::<targetCcy><tradeCcy>, 
+    we simply return the value using the trade currency.
+
+    *)
+    member this.Calculate() : Money = 
+        {Value = 5.; Currency="EUR"}
