@@ -306,12 +306,25 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             //MathNet.Numerics.Distributions.Normal.CFD(mean,stdev,point)   //I would this package
             //stockPricesList
             BScall
+        
+        //interestRate as a string
+        let interestRateS = match inputs.Data.TryFind "interestRate::percentage" with
+                            | Some rate -> rate
+                            | None -> "0"
+        //try convert as a number
+        let interestRateN =
+            try float interestRateS
+            with
+            | _ -> 0.
+
+
+
 
         let g = {
             years=2.
             steps=200
             price=7.8
-            drift=0.14
+            drift=interestRateN/100. //from 5"%" do .05
             vol=0.2
             seed=5}
         let b = {
