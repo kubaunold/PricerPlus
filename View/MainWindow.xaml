@@ -445,9 +445,11 @@
                                         <TextBox Grid.Column="3" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Currency}"/>
                                         <TextBox Grid.Column="4" TextAlignment="Right" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Strike, StringFormat=N2}"/>
                                         <TextBlock Grid.Column="5" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding BScall, Mode=OneWay, Converter={StaticResource stripOption}}"/>
-                                        <TextBlock Grid.Column="6" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding BScallDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>
+                                        <TextBox Grid.Column="6" TextAlignment="Right" Margin="0" IsReadOnly="True" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding BScallDelta, StringFormat=N2}"/>
+                                        <!--<TextBlock Grid.Column="6" TextAlignment="Right" Margin="0" Padding="10"  Text="{Binding BScallDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>-->
                                         <TextBlock Grid.Column="7" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding BSput, Mode=OneWay, Converter={StaticResource stripOption}}"/>
-                                        <TextBlock Grid.Column="8" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding BSputDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>
+                                        <TextBox Grid.Column="8" TextAlignment="Right" Margin="0" IsReadOnly="True" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding BSputDelta, StringFormat=N2}"/>
+                                        <!--<TextBlock Grid.Column="8" TextAlignment="Right" Margin="0" Padding="10"  Text="{Binding BSputDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>-->
                                         <!--<CheckBox Grid.Column="6" Width="Auto" Margin="4" HorizontalAlignment="Center" IsChecked="{Binding CanBeDeferred}"/>-->
                                         <!--<TextBox Grid.Column="6" TextAlignment="Center" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding CanBeDeferred}"/>-->
                                     </Grid>

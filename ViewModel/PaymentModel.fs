@@ -212,7 +212,16 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
     we simply return the value using the trade currency.
 
     *)
-    member this.Calculate() : Money =
+    member this.Calculate() (*: (Money list)*) =
+        let optionCcy = inputs.OptionType.Currency
+        let targetCcy = match inputs.CalculationsParameters.TryFind "valuation::baseCurrency" with
+        | Some ccy -> ccy
+        | None -> optionCcy
+        let fxRateKey = sprintf "FX::%s%s" targetCcy optionCcy
+        let fxRate = if inputs.Data.ContainsKey fxRateKey then float inputs.Data.[ fxRateKey ] else 1.0 // lookup FX rate
+        let finalCcy = if inputs.Data.ContainsKey fxRateKey then targetCcy else optionCcy
+
+
         //generates list of n Uniform RVs from interval [0,1]; here it's [0,1) I guess
         let genRandomNumbersNominalInterval (count:int) (seed:int) : float list=
             let rnd = System.Random(seed)
@@ -271,13 +280,13 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             let result = buildResult [] 1
             result
 
-        let count = 1000
-        let steps = 250 //must be EVEN!
-        let price = 4.20
-        let drift = 0.12
-        let vol = 0.2
-        let years = 1.
-        let seed = 5
+        //let count = 1000
+        //let steps = 250 //must be EVEN!
+        //let price = 4.20
+        //let drift = 0.12
+        //let vol = 0.2
+        //let years = 1.
+        //let seed = 5
 
         //simulateGBM count steps price drift vol years seed
 
@@ -298,14 +307,22 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             let stockPricesList = buildStockPricesList [gbm.price] gbm.steps 0
             let finalStockPrice = stockPricesList.[stockPricesList.Length - 1]
 
+            let d1 = (Math.Log(gbm.price/bs.k, Math.E) + (gbm.drift + 0.5*(gbm.vol**2.))*gbm.years) / (gbm.vol*sqrt(gbm.years))
             let BScall = 
-                let d1 = (Math.Log(gbm.price/bs.k, Math.E) + (drift + 0.5*vol**2.)*years) / (vol*sqrt(years))
-                let d2 = d1 - vol*sqrt(years)
+                let d2 = d1 - gbm.vol*sqrt(gbm.years)
                 let BScallPrice = gbm.price * cfd(0, 1, d1) - (bs.k/Math.E**(gbm.drift*gbm.years) * cfd(0, 1, d1))
                 BScallPrice
             //MathNet.Numerics.Distributions.Normal.CFD(mean,stdev,point)   //I would this package
             //stockPricesList
-            BScall
+
+            let BScallDelta =
+                cfd(0,1,d1)
+            let BSputDelta = BScallDelta - 1.
+
+            let BSput =
+                BScall + bs.k/(Math.E**(gbm.drift*gbm.years)) - gbm.price
+
+            [BScall; BScallDelta; BSput; BSputDelta]
         
         //interestRate as a string
         let interestRateS = match inputs.Data.TryFind "interestRate::percentage" with
@@ -317,20 +334,68 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             with
             | _ -> 0.
 
+        let priceS = match inputs.Data.TryFind "stock::price" with
+                            | Some price -> price
+                            | None -> "4.21"
+        let priceN =
+            try float priceS
+            with
+            | _ -> 4.21
 
+        let volS = match inputs.Data.TryFind "stock::volatility" with
+                            | Some volatility -> volatility
+                            | None -> "0.21"
+        let volN =
+            try float volS
+            with
+            | _ -> 0.21
 
+        let stepsS = match inputs.CalculationsParameters.TryFind "option::steps" with
+                            | Some steps -> steps
+                            | None -> "200"
+        let stepsN =
+            try int stepsS
+            with
+            | _ -> 202
+
+        let seedN =
+            let seedS = match inputs.CalculationsParameters.TryFind "option::seed" with
+                                | Some seed -> seed
+                                | None -> "7"
+            try int seedS
+            with
+            | _ -> 7
+
+        let strike = 
+            match inputs.OptionType.Strike with
+            | strike -> strike
+            | _ -> 10.
+
+        let maturity =
+            match inputs.OptionType.Expiry with
+            | date ->
+                let date = System.DateTime.Now.AddYears(1)
+                let yearInTicks = System.DateTime.Now.AddYears(1).Ticks - System.DateTime.Now.Ticks
+                let oneTickToYears = (double (1.))/(double yearInTicks)
+                float (double (date.Ticks - System.DateTime.Now.Ticks) * oneTickToYears) 
+            | _ -> 1.
 
         let g = {
-            years=2.
-            steps=200
-            price=7.8
+            years=maturity
+            steps=stepsN
+            price=priceN
             drift=interestRateN/100. //from 5"%" do .05
-            vol=0.2
-            seed=5}
+            vol=volN
+            seed=seedN}
         let b = {
-            k=5.
-            m=1.}
+            k=strike
+            m=maturity}
 
         let r = simulateBlackScholesPutOptionPriceAndDelta g b
 
-        {Value = r; Currency="EUR"}
+        let money1 = {Value = r.[0] / fxRate; Currency=finalCcy}
+        let money2 = r.[1](*{Value = r.[1] / fxRate; Currency=finalCcy}*)
+        let money3 = {Value = r.[2] / fxRate; Currency=finalCcy}
+        let money4 = r.[2](*{Value = r.[3] / fxRate; Currency=finalCcy}
+*)
+        (money1,money2,money3,money4)

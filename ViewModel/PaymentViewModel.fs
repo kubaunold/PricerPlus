@@ -87,9 +87,9 @@ type OptionViewModel(input : OptionRecord) =
 
     let mutable userInput = input
     let mutable _BScall : Money option = None
-    let mutable _BScallDelta : Money option = None
+    let mutable _BScallDelta : float  = 0.0
     let mutable _BSput : Money option = None
-    let mutable _BSputDelta : Money option = None
+    let mutable _BSputDelta : float  = 0.0
 
 
     member this.OptionName 
@@ -127,6 +127,7 @@ type OptionViewModel(input : OptionRecord) =
         and set(x) =
             _BScallDelta <- x
             base.Notify("BScallDelta")
+
     member this.BSput
         with get() = _BSput
         and set(x) =
@@ -157,10 +158,18 @@ type OptionViewModel(input : OptionRecord) =
                 CalculationsParameters = calculationParameters
             }
         //calculate
-        let calc  = OptionValuationModel(optionInputs).Calculate()
+        let calcTuple  = OptionValuationModel(optionInputs).Calculate()
+
+        let BScall = (match calcTuple with (a,_,_,_) -> a)
+        let BScallDelta = (match calcTuple with (_,b,_,_) -> b)
+        let BSput = (match calcTuple with (_,_,c,_) -> c)
+        let BSputDelta = (match calcTuple with (_,_,_,d) -> d)
+
+        
+
 
         //present to the user
-        this.BScall <- Option.Some (calc)
-        this.BScallDelta <- Option.Some (calc)
-        this.BSput <- Option.Some (calc)
-        this.BSputDelta <- Option.Some (calc)
+        this.BScall <- Option.Some (BScall)
+        this.BScallDelta <- BScallDelta
+        this.BSput <- Option.Some (BSput)
+        this.BSputDelta <- BSputDelta

@@ -19,6 +19,7 @@ type OptionDoubleToDoubleConverter() =
                 match ovalue with 
                 | Some v -> box v 
                 | None -> null
+                
 
         member this.ConvertBack (_ : obj, _ : Type, _ : obj, _ : CultureInfo) =
             raise( new NotImplementedException("OptionDoubleToDoubleConverter.ConvertBack not implemented"))
