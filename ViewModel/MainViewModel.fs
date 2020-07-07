@@ -37,33 +37,45 @@ type MainViewModel() =
     (* trade commands *)
     let refreshSummary() = 
         summary.Clear()
-        
         trades 
         |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
         |> Seq.groupBy(fun m -> m.Currency)  // group by currency
         |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
         |> Seq.iter(summary.Add) // add to summary page
-
     let calculateFun _ = do
             trades |> Seq.iter(fun trade -> trade.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
             refreshSummary()
 
     let calculate = SimpleCommand calculateFun
-
     let addTrade = SimpleCommand(fun _ -> 
             let currentConfig = getCalculationConfiguration ()
             PaymentRecord.Random currentConfig |> PaymentViewModel |> trades.Add
             )
-
     let removeTrade = SimpleCommand(fun trade -> trades.Remove (trade :?> PaymentViewModel) |> ignore)
     let clearTrades = SimpleCommand(fun _ -> trades.Clear () )
-
-    (* charting *)
     
+    (* option commands *)
+    //let refreshSummary() = 
+    //    summary.Clear()
+    //    trades 
+    //    |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
+    //    |> Seq.groupBy(fun m -> m.Currency)  // group by currency
+    //    |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
+    //    |> Seq.iter(summary.Add) // add to summary page
+    let calculateOptionsFun _ = do
+            options |> Seq.iter(fun option -> option.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
+            //refreshSummary()
+
+    let calculateOptions = SimpleCommand calculateOptionsFun
+    let addOption = SimpleCommand(fun _ -> 
+            let currentConfig = getCalculationConfiguration ()
+            OptionRecord.Random currentConfig |> OptionViewModel |> options.Add
+            )
+    let removeOption = SimpleCommand(fun option -> options.Remove (option :?> OptionViewModel) |> ignore)
+    let clearOptions = SimpleCommand(fun _ -> options.Clear () )
+    (* charting *)
     let chartSeries = SeriesCollection()
-
     let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> x*x) |] 
-
     let addChartSeriesFun _ = do
                 let ls = LineSeries()
                 let multiplier = System.Random().NextDouble()
@@ -72,7 +84,6 @@ type MainViewModel() =
                 let series = seq { for i in 1 .. 100 do yield (0.01 * multiplier * double i) }
                 ls.Values <- ChartValues<float> (Seq.map mapFun series)
                 chartSeries.Add(ls)
-
     let addChartSeries = SimpleCommand addChartSeriesFun
 
     (* add a few series for a good measure *)
@@ -110,6 +121,10 @@ type MainViewModel() =
     member this.RemoveCalcParameter = removeCalcParameterRecord 
     member this.ClearCalcParameter = clearCalcParameterRecord 
 
+    member this.AddOption = addOption
+    member this.RemoveOption = removeOption
+    member this.ClearOptions = clearOptions
+    member this.CalculateOptions = calculateOptions
 
     (* data fields *)
     member this.Trades = trades

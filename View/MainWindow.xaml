@@ -423,7 +423,7 @@
                         <!-- items -->
                         <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" ItemsSource="{Binding Options}" >
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type vm:PaymentViewModel}">
+                                <DataTemplate DataType="{x:Type vm:OptionViewModel}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="60"/>
