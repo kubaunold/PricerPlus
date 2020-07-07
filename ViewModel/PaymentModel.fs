@@ -189,11 +189,11 @@ type OptionValuationInputs =
 type GBMParams = 
     {
         //count:int
-        steps:int
+        steps:int   //must be even
         price:float
         drift:float
         vol:float
-        years:int
+        years:float
         seed:int
     }
 //Params for Black-Scholes Model for pricing an option
@@ -276,12 +276,13 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
         let price = 4.20
         let drift = 0.12
         let vol = 0.2
-        let years = 1
+        let years = 1.
         let seed = 5
 
         //simulateGBM count steps price drift vol years seed
 
-
+        let cfd (mean,stdev,point) = 
+            point * 0.87
 
         //simulate and predict option price
         let simulateBlackScholesPutOptionPriceAndDelta (gbm:GBMParams) (bs:BSParams) =
@@ -296,12 +297,18 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
                     buildStockPricesList (currentStockPricesList@[newStockPrice]) steps (normalId+1)
             let stockPricesList = buildStockPricesList [gbm.price] gbm.steps 0
             let finalStockPrice = stockPricesList.[stockPricesList.Length - 1]
-            stockPricesList
 
-        //installed StatsN package
+            let BScall = 
+                let d1 = (Math.Log(gbm.price/bs.k, Math.E) + (drift + 0.5*vol**2.)*years) / (vol*sqrt(years))
+                let d2 = d1 - vol*sqrt(years)
+                let BScallPrice = gbm.price * cfd(0, 1, d1) - (bs.k/Math.E**(gbm.drift*gbm.years) * cfd(0, 1, d1))
+                BScallPrice
+            //MathNet.Numerics.Distributions.Normal.CFD(mean,stdev,point)   //I would this package
+            //stockPricesList
+            BScall
 
         let g = {
-            years=2
+            years=2.
             steps=200
             price=7.8
             drift=0.14
@@ -311,6 +318,6 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             k=5.
             m=1.}
 
-        simulateBlackScholesPutOptionPriceAndDelta g b
+        let r = simulateBlackScholesPutOptionPriceAndDelta g b
 
-        {Value = 5.; Currency="EUR"}
+        {Value = r; Currency="EUR"}
