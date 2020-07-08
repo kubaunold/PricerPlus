@@ -15,7 +15,9 @@
         Title="Pricer App"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         Background="{DynamicResource MaterialDesignPaper}"
+
         FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1641" d:DesignHeight="1452">
+
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>
@@ -310,7 +312,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="40" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
+                                        <Button Width="Auto" Command="{Binding DataContext.RemoveCalcParameter, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Key}"/>
                                         <TextBox Width="340" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Value}"/>
                                     </StackPanel>
@@ -355,28 +357,35 @@
                 </Grid>
             </materialDesign:Card>
 
+
             <!-- OPTIONS -->
             <materialDesign:Card Grid.Row="6" Grid.ColumnSpan="4" Margin="14,14,14,0">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
+
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- card header -->
+
                     <TextBlock Grid.Row="0" Grid.Column="0"
                    Margin="4" Style="{DynamicResource MaterialDesignTitleTextBlock}" 
                    Width="120" HorizontalAlignment="Left">
+
                         <TextBlock.ToolTip>
                             <ToolTip Style="{DynamicResource MaterialDesignToolTip}">
                                 This module allows to simulate stock prices using Geometric Brownian Motion Simulation and then estimate option price based on BS model.
                             </ToolTip>
                         </TextBlock.ToolTip>
+
                         Options
                     </TextBlock>
 
@@ -391,10 +400,12 @@
 
                     <Grid Grid.Column="1" Grid.Row="1">
 
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -407,9 +418,11 @@
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="180"/>
+
                         </Grid.ColumnDefinitions>
 
                         <!-- table header -->
+
 
                         <TextBlock Grid.Row="1" Grid.Column="1" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Name"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Maturity"/>
@@ -453,12 +466,14 @@
                                         <!--<CheckBox Grid.Column="6" Width="Auto" Margin="4" HorizontalAlignment="Center" IsChecked="{Binding CanBeDeferred}"/>-->
                                         <!--<TextBox Grid.Column="6" TextAlignment="Center" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding CanBeDeferred}"/>-->
                                     </Grid>
+
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
                 </Grid>
             </materialDesign:Card>
+
 
 
         </Grid>

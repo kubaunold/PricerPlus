@@ -8,6 +8,7 @@ type ConfigurationRecord =
     
 type DataConfiguration = Map<string, string>
 type CalculationConfiguration = Map<string, string>
+type SimulationConfiguration = Map<string, string>
 
 type ConfigurationViewModel( configRec : ConfigurationRecord) = 
     inherit ViewModelBase()

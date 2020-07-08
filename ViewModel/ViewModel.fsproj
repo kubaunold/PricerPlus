@@ -58,10 +58,13 @@
     <Compile Include="PaymentViewModel.fs" />
     <Compile Include="MainViewModel.fs" />
     <Compile Include="OptionDoubleToDoubleConverter.fs" />
-    <Content Include="packages.config" />
+    <Compile Include="SimulationModel.fs" />
+    <Compile Include="SimulationViewModel.fs" />
     <Compile Include="notes.fs" />
+
     <Compile Include="OptionModel.fs" />
     <Compile Include="OptionViewModel.fs" />
+
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LiveCharts">

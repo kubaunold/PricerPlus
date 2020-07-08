@@ -13,10 +13,13 @@ type MainViewModel() =
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
+
     let options = ObservableCollection<OptionViewModel>()
+
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
+    let getSimulationConfiguration () = simulationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     
     (* add some dummy data rows *)
     do
@@ -37,7 +40,18 @@ type MainViewModel() =
         calculationParameters.Add(ConfigurationViewModel { Key = "option::steps"; Value = "200" })
         calculationParameters.Add(ConfigurationViewModel { Key = "option::seed"; Value = "5" })
 
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::years"; Value = "2" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::steps"; Value = "200" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::price"; Value = "7.8" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::drift"; Value = "0.14" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::volatility"; Value = "0.20" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::seed"; Value = "5" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::strike"; Value = "5.0" })
+        simulationParameters.Add(ConfigurationViewModel { Key = "blackScholes::maturity"; Value = "1.0" })
+        
+
     let summary = ObservableCollection<SummaryRow>()
+    //let result = ObservableCollection<ResultRow>()
 
     (* trade commands *)
     let refreshSummary() = 
@@ -50,7 +64,6 @@ type MainViewModel() =
     let calculateFun _ = do
             trades |> Seq.iter(fun trade -> trade.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
             refreshSummary()
-
     let calculate = SimpleCommand calculateFun
     let addTrade = SimpleCommand(fun _ -> 
             let currentConfig = getCalculationConfiguration ()
@@ -58,6 +71,7 @@ type MainViewModel() =
             )
     let removeTrade = SimpleCommand(fun trade -> trades.Remove (trade :?> PaymentViewModel) |> ignore)
     let clearTrades = SimpleCommand(fun _ -> trades.Clear () )
+
     
     (* option commands *)
     //let refreshSummary() = 
@@ -78,6 +92,7 @@ type MainViewModel() =
             )
     let removeOption = SimpleCommand(fun option -> options.Remove (option :?> OptionViewModel) |> ignore)
     let clearOptions = SimpleCommand(fun _ -> options.Clear () )
+
     (* charting *)
     let chartSeries = SeriesCollection()
     let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> x*x) |] 
@@ -106,11 +121,32 @@ type MainViewModel() =
     let removeCalcParameterRecord = SimpleCommand (fun record -> calculationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
     let clearCalcParameterRecord = SimpleCommand (fun _ -> calculationParameters.Clear ())
 
+    (* simulation parameters commands *)
+    let addSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Add(ConfigurationViewModel { Key = ""; Value = "" }))
+    let removeSimParameterRecord = SimpleCommand (fun record -> simulationParameters.Remove(record :?> ConfigurationViewModel) |> ignore)
+    let clearSimParameterRecord = SimpleCommand (fun _ -> simulationParameters.Clear ())
+  
+    let calculateSim _ = 
+        do
+            //let result:SimulationOutput =  simulationParameters |> 
+            //result
+            printfn "Na razie nic"
+    
+    let calculate = SimpleCommand calculateSim
+
+    
+    //let refreshSimulation() = 
+    //    simulationOutput.Clear()
+    //    let currentResult = 
+    //    simulationOutput.Add
+
+
     (* automatically update summary when dependency data changes (entries added/removed)  *)
     do
         trades.CollectionChanged.Add calculateFun
         data.CollectionChanged.Add calculateFun
         calculationParameters.CollectionChanged.Add calculateFun
+        simulationParameters.CollectionChanged.Add calculateFun
 
     (* commands *)
     member this.AddTrade = addTrade 
@@ -124,7 +160,11 @@ type MainViewModel() =
     
     member this.AddCalcParameter = addCalcParameterRecord 
     member this.RemoveCalcParameter = removeCalcParameterRecord 
-    member this.ClearCalcParameter = clearCalcParameterRecord 
+    member this.ClearCalcParameter = clearCalcParameterRecord
+
+    member this.AddSimParameter = addSimParameterRecord 
+    member this.RemoveSimParameter = removeSimParameterRecord 
+    member this.ClearSimParameter = clearSimParameterRecord
 
     member this.AddOption = addOption
     member this.RemoveOption = removeOption
@@ -135,8 +175,10 @@ type MainViewModel() =
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
+
     member this.Summary = summary
     member this.Options = options
+
 
     (* charting *)
 

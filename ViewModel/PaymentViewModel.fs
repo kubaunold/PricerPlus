@@ -7,7 +7,9 @@ type PaymentViewModel(input : PaymentRecord) =
     let mutable userInput = input
     let mutable value : Money option = None
 
-    member this.TradeName 
+
+
+    member this.TradeName
         with get() = userInput.TradeName
         and set(x) = 
             userInput <- {userInput with TradeName = x }
@@ -75,6 +77,7 @@ type PaymentViewModel(input : PaymentRecord) =
         this.ValuePlusInterest <- Option.Some (calcPlusInterest)
 
 (* summary row. there is little functionality here, so this is very brief. *)
+
 type SummaryRow = 
     {
         Currency: string

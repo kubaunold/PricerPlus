@@ -1,7 +1,6 @@
 ﻿namespace ViewModel
 
 open System
-open System
 
 (* A type representing given amount of money in specific currency. Very bare bones, could be extended in various ways. Some examples:
 1. Multiplication by float so that $1 * 100 = $100.
@@ -97,11 +96,14 @@ type PaymentValuationModel (inputs:PaymentValuationInputs) =
         else
         { Value = (float inputs.Trade.Principal)  / fxRate; Currency = finalCcy }
 
+
+
+
     member this.CalculatePlusInterest() : Money = 
         let tradeCcy = inputs.Trade.Currency
         let targetCcy = match inputs.CalculationsParameters.TryFind "valuation::baseCurrency" with
-        | Some ccy -> ccy
-        | None -> tradeCcy
+                            | Some ccy -> ccy
+                            | None -> tradeCcy
         let fxRateKey = sprintf "FX::%s%s" targetCcy tradeCcy
         let fxRate = if inputs.Data.ContainsKey fxRateKey then float inputs.Data.[ fxRateKey ] else 1.0 // lookup FX rate
         let finalCcy = if inputs.Data.ContainsKey fxRateKey then targetCcy else tradeCcy
