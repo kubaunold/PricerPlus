@@ -2,6 +2,14 @@
 
 open System
 open System
+//open MathNet.Numerics.LinearAlgebra
+//open MathNet.Numerics.Distributions
+
+//open Extreme.Mathematics
+//open Extreme.Statistics
+//open Extreme.Statistics.Distributions
+
+//open Troschuetz.Random.Distributions.Continuous
 
 (* A type representing given amount of money in specific currency. Very bare bones, could be extended in various ways. Some examples:
 1. Multiplication by float so that $1 * 100 = $100.
@@ -69,6 +77,7 @@ type PaymentValuationModel (inputs:PaymentValuationInputs) =
 
     *)
     member this.Calculate() : Money = 
+
         let tradeCcy = inputs.Trade.Currency
 
         let targetCcy = match inputs.CalculationsParameters.TryFind "valuation::baseCurrency" with
@@ -244,8 +253,6 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
                     buildNormalList (normalList@newUniforms)
             buildNormalList []
 
-        let a = 5
-
         let simulateGBM (count:int) (steps:int) (price:float) (drift:float) (vol:float) (years:int) (seed:int) =
             //start counting t(trajectories)
             let rec buildResult currentResult t =
@@ -398,6 +405,8 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
         let money1 = {Value = r.[0] / fxRate; Currency=finalCcy}
         let money2 = r.[1](*{Value = r.[1] / fxRate; Currency=finalCcy}*)
         let money3 = {Value = r.[2] / fxRate; Currency=finalCcy}
-        let money4 = r.[2](*{Value = r.[3] / fxRate; Currency=finalCcy}
-*)
+        let money4 = r.[2](*{Value = r.[3] / fxRate; Currency=finalCcy}*)
         (money1,money2,money3,money4)
+
+        
+

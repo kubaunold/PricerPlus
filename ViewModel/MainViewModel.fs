@@ -51,6 +51,8 @@ type MainViewModel() =
             trades |> Seq.iter(fun trade -> trade.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
             refreshSummary()
 
+
+
     let calculate = SimpleCommand calculateFun
     let addTrade = SimpleCommand(fun _ -> 
             let currentConfig = getCalculationConfiguration ()
@@ -78,7 +80,9 @@ type MainViewModel() =
             )
     let removeOption = SimpleCommand(fun option -> options.Remove (option :?> OptionViewModel) |> ignore)
     let clearOptions = SimpleCommand(fun _ -> options.Clear () )
+
     (* charting *)
+
     let chartSeries = SeriesCollection()
     let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> x*x) |] 
     let addChartSeriesFun _ = do
@@ -93,8 +97,9 @@ type MainViewModel() =
 
     (* add a few series for a good measure *)
     do
-        addChartSeriesFun ()
-        addChartSeriesFun ()
+        //addChartSeriesFun ()
+        //addChartSeriesFun ()
+        ()
 
     (* market data commands *)
     let addMarketDataRecord = SimpleCommand (fun _ -> data.Add(ConfigurationViewModel { Key = ""; Value = "" }))
