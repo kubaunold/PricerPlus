@@ -97,7 +97,8 @@ type MainViewModel() =
                 chartSeries.Add(ls)
     let addChartSeries = SimpleCommand addChartSeriesFun
 
-    let clearSeries _ = chartSeries.Clear()
+    //let clearSeries _ = chartSeries.Clear()
+    let clearChartSeries = SimpleCommand (fun _ -> chartSeries.Clear ())
 
     let addGBMSeriesFun _ = do
         let ls = LineSeries()
@@ -207,4 +208,4 @@ type MainViewModel() =
     member this.ChartSeries = chartSeries
     member this.AddChartSeries = addChartSeries
     member this.AddGBMSeries = addGBMSeries
-    member this.ClearSeries = clearSeries
+    member this.ClearChartSeries = clearChartSeries

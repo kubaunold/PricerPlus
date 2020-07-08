@@ -363,9 +363,9 @@
                             <Grid Grid.Column="0" Grid.Row="1">
                                 <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddGBMSeries}" Content="Simulate GBM"/>
                             </Grid>
-                            <!--<Grid Grid.Column="0" Grid.Row="2">
-                                <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearSeries}" Content="Clear"/>
-                            </Grid>-->
+                            <Grid Grid.Column="0" Grid.Row="2">
+                                <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearChartSeries}" Content="Clear"/>
+                            </Grid>
 
                         </Grid>
                     </StackPanel>
