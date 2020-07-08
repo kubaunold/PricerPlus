@@ -61,7 +61,10 @@
     <Compile Include="SimulationModel.fs" />
     <Compile Include="SimulationViewModel.fs" />
     <Compile Include="notes.fs" />
-    <Content Include="packages.config" />
+
+    <Compile Include="OptionModel.fs" />
+    <Compile Include="OptionViewModel.fs" />
+
   </ItemGroup>
   <ItemGroup>
     <Reference Include="LiveCharts">
@@ -78,6 +81,12 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="StatsN">
+      <HintPath>..\packages\StatsN.1.2.1\lib\net45\StatsN.dll</HintPath>
+    </Reference>
+    <Reference Include="StatsN.Contracts">
+      <HintPath>..\packages\StatsN.Contracts.1.2.1\lib\net45\StatsN.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />

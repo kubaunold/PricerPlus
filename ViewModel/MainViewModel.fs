@@ -13,7 +13,9 @@ type MainViewModel() =
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
-    let simulationParameters = ObservableCollection<ConfigurationViewModel>()   //parameters of GBM and BS
+
+    let options = ObservableCollection<OptionViewModel>()
+
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
@@ -25,6 +27,9 @@ type MainViewModel() =
         data.Add(ConfigurationViewModel { Key = "FX::USDEUR"; Value = "0.87" })
         data.Add(ConfigurationViewModel { Key = "FX::EURGBP"; Value = "0.90" })
         data.Add(ConfigurationViewModel { Key = "interestRate::percentage"; Value = "5" })
+        data.Add(ConfigurationViewModel { Key = "stock::price"; Value = "4.20" })
+        //data.Add(ConfigurationViewModel { Key = "stock::drift"; Value = "4.20" }) //thats interestrate
+        data.Add(ConfigurationViewModel { Key = "stock::volatility"; Value = "0.20" })
 
         calculationParameters.Add(ConfigurationViewModel { Key = "monteCarlo::runs"; Value = "100" })
         calculationParameters.Add(ConfigurationViewModel { Key = "valuation::baseCurrency"; Value = "USD" })
@@ -32,6 +37,8 @@ type MainViewModel() =
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpRisk"; Value = "True" })
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpSize"; Value = "0.0001" })
         calculationParameters.Add(ConfigurationViewModel { Key = "valuation::deferredHaircut"; Value = "1.5" })
+        calculationParameters.Add(ConfigurationViewModel { Key = "option::steps"; Value = "200" })
+        calculationParameters.Add(ConfigurationViewModel { Key = "option::seed"; Value = "5" })
 
         simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::years"; Value = "2" })
         simulationParameters.Add(ConfigurationViewModel { Key = "geometricBrownianMotion::steps"; Value = "200" })
@@ -64,6 +71,27 @@ type MainViewModel() =
             )
     let removeTrade = SimpleCommand(fun trade -> trades.Remove (trade :?> PaymentViewModel) |> ignore)
     let clearTrades = SimpleCommand(fun _ -> trades.Clear () )
+
+    
+    (* option commands *)
+    //let refreshSummary() = 
+    //    summary.Clear()
+    //    trades 
+    //    |> Seq.choose(fun t -> t.Value) // find correctly evaluated trades
+    //    |> Seq.groupBy(fun m -> m.Currency)  // group by currency
+    //    |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
+    //    |> Seq.iter(summary.Add) // add to summary page
+    let calculateOptionsFun _ = do
+            options |> Seq.iter(fun option -> option.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
+            //refreshSummary()
+
+    let calculateOptions = SimpleCommand calculateOptionsFun
+    let addOption = SimpleCommand(fun _ -> 
+            let currentConfig = getCalculationConfiguration ()
+            OptionRecord.Random currentConfig |> OptionViewModel |> options.Add
+            )
+    let removeOption = SimpleCommand(fun option -> options.Remove (option :?> OptionViewModel) |> ignore)
+    let clearOptions = SimpleCommand(fun _ -> options.Clear () )
 
     (* charting *)
     let chartSeries = SeriesCollection()
@@ -138,17 +166,19 @@ type MainViewModel() =
     member this.RemoveSimParameter = removeSimParameterRecord 
     member this.ClearSimParameter = clearSimParameterRecord
 
+    member this.AddOption = addOption
+    member this.RemoveOption = removeOption
+    member this.ClearOptions = clearOptions
+    member this.CalculateOptions = calculateOptions
 
     (* data fields *)
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
-    member this.SimulationParameters = simulationParameters
 
     member this.Summary = summary
-    //member this.SimulationOutput = simulationOutput
+    member this.Options = options
 
-    //member this.Result = result
 
     (* charting *)
 
