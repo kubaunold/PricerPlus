@@ -244,6 +244,8 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
                     buildNormalList (normalList@newUniforms)
             buildNormalList []
 
+        let a = 5
+
         let simulateGBM (count:int) (steps:int) (price:float) (drift:float) (vol:float) (years:int) (seed:int) =
             //start counting t(trajectories)
             let rec buildResult currentResult t =
