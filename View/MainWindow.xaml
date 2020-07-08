@@ -352,6 +352,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -360,8 +361,11 @@
                                 <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddChartSeries}" Content="Add random series"/>
                             </Grid>
                             <Grid Grid.Column="0" Grid.Row="1">
-                                <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddGBMSeries}" Content="Add GBM series"/>
+                                <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddGBMSeries}" Content="Simulate GBM"/>
                             </Grid>
+                            <!--<Grid Grid.Column="0" Grid.Row="2">
+                                <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearSeries}" Content="Clear"/>
+                            </Grid>-->
 
                         </Grid>
                     </StackPanel>

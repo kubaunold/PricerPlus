@@ -84,16 +84,75 @@ type MainViewModel() =
     (* charting *)
 
     let chartSeries = SeriesCollection()
-    let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> x*x) |] 
+    let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> 2.*x); (fun x -> 2.*x - 3.) |] 
     let addChartSeriesFun _ = do
                 let ls = LineSeries()
                 let multiplier = System.Random().NextDouble()
                 let mapFun = predefinedChartFunctions.[ System.Random().Next(predefinedChartFunctions.Length) ]
                 ls.Title <- sprintf "Test series %0.2f" multiplier
-                let series = seq { for i in 1 .. 100 do yield (0.01 * multiplier * double i) }
-                ls.Values <- ChartValues<float> (Seq.map mapFun series)
+                //let series = seq { for i in 1 .. 100 do yield (0.01 * multiplier * double i) }
+                let series = seq { for i in 1 .. 250 do float i }
+                let a = (Seq.map mapFun series)
+                ls.Values <- ChartValues<float> a
                 chartSeries.Add(ls)
     let addChartSeries = SimpleCommand addChartSeriesFun
+
+    let clearSeries _ = chartSeries.Clear()
+
+    let addGBMSeriesFun _ = do
+        let ls = LineSeries()
+        
+        //generates list of n Uniform RVs from interval [0,1]; here it's [0,1) I guess
+        let genRandomNumbersNominalInterval (count:int) (seed:int) : float list=
+            let rnd = System.Random(seed)
+            List.init count (fun _ -> rnd.NextDouble())
+
+        //input: UniformRM need to be from interval (0,1]
+        //input: steps MUST BE EVEN!
+        //output: NormalRV have mean=0 and standard_deviation=1
+        let normalizeRec (uniformList:float list) (n:int) : float list =
+            let rec buildNormalList (normalList:float list) =
+                if normalList.Length = n then normalList
+                else
+                    let currentNIdOne = normalList.Length
+                    let currentNIdTwo = currentNIdOne + 1
+                    let oneU = uniformList.[currentNIdOne]
+                    let twoU = uniformList.[currentNIdTwo]
+                    let oneN = sqrt(-2.*Math.Log(oneU, Math.E))*sin(2.*Math.PI*twoU)
+                    let twoN = sqrt(-2.*Math.Log(oneU, Math.E))*cos(2.*Math.PI*twoU)
+                    let newUniforms = [oneN; twoN]
+                    buildNormalList (normalList@newUniforms)
+            buildNormalList []
+
+        let simulateGBM (count:int) (steps:int) (price:float) (drift:float) (vol:float) (years:float) (seed:int) =
+            let normalRV = normalizeRec (genRandomNumbersNominalInterval steps seed) steps
+            //build stock prices list
+            let rec buildStockPricesList (currentStockPricesList:float list) (steps:int) (normalId:int) : float list =
+                if normalId = steps-1 then currentStockPricesList
+                else
+                    let firstExpTerm =  (drift - (vol**2.)/2.) * (float(years)/float(steps))
+                    let secondExpTerm =  vol * sqrt(float(years)/float(steps)) * normalRV.[normalId]
+                    let newStockPrice = currentStockPricesList.[normalId] * Math.E ** (firstExpTerm + secondExpTerm)
+                    buildStockPricesList (currentStockPricesList@[newStockPrice]) steps (normalId+1)
+            let stockPricesList = buildStockPricesList [price] steps 0
+            stockPricesList
+
+        //let count = 1000
+        let steps = 250 //must be EVEN!
+        let price = System.Random().NextDouble() * 10.
+        let drift = System.Random().NextDouble()
+        let vol = System.Random().NextDouble()
+        let years = System.Random().NextDouble()
+        let seed = System.Random().Next()
+        let series = simulateGBM 1 steps price drift vol years seed
+        ls.Values <- ChartValues<float> series
+        chartSeries.Add(ls)
+        
+
+
+
+
+    let addGBMSeries = SimpleCommand addGBMSeriesFun
 
     (* add a few series for a good measure *)
     do
@@ -147,3 +206,5 @@ type MainViewModel() =
 
     member this.ChartSeries = chartSeries
     member this.AddChartSeries = addChartSeries
+    member this.AddGBMSeries = addGBMSeries
+    member this.ClearSeries = clearSeries
