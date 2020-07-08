@@ -307,10 +307,10 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             let stockPricesList = buildStockPricesList [gbm.price] gbm.steps 0
             let finalStockPrice = stockPricesList.[stockPricesList.Length - 1]
 
-            let d1 = (Math.Log(gbm.price/bs.k, Math.E) + (gbm.drift + 0.5*(gbm.vol**2.))*gbm.years) / (gbm.vol*sqrt(gbm.years))
+            let d1 = (Math.Log(gbm.price/bs.k, Math.E) + (gbm.drift + 0.5*(gbm.vol**2.))*bs.m) / (gbm.vol*sqrt(bs.m))
             let BScall = 
-                let d2 = d1 - gbm.vol*sqrt(gbm.years)
-                let BScallPrice = gbm.price * cfd(0, 1, d1) - (bs.k/Math.E**(gbm.drift*gbm.years) * cfd(0, 1, d1))
+                let d2 = d1 - gbm.vol*sqrt(bs.m)
+                let BScallPrice = gbm.price * cfd(0, 1, d1) - (bs.k/Math.E**(gbm.drift*bs.m) * cfd(0, 1, d1))
                 BScallPrice
             //MathNet.Numerics.Distributions.Normal.CFD(mean,stdev,point)   //I would this package
             //stockPricesList
@@ -320,7 +320,7 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             let BSputDelta = BScallDelta - 1.
 
             let BSput =
-                BScall + bs.k/(Math.E**(gbm.drift*gbm.years)) - gbm.price
+                BScall + bs.k/(Math.E**(gbm.drift*bs.m)) - gbm.price
 
             [BScall; BScallDelta; BSput; BSputDelta]
         
