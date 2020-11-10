@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
@@ -13,9 +14,8 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Title="Pricer App"
-        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1641" d:DesignHeight="1452">
+        FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1557.9" d:DesignHeight="1598">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>

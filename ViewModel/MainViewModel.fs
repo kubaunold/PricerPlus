@@ -10,10 +10,10 @@ open LiveCharts.Wpf;
 type MainViewModel() = 
     inherit ViewModelBase()
 
-    let trades = ObservableCollection<PaymentViewModel>()
-    let data = ObservableCollection<ConfigurationViewModel>()
-    let calculationParameters = ObservableCollection<ConfigurationViewModel>()
-    let options = ObservableCollection<OptionViewModel>()
+    let trades                  = ObservableCollection<PaymentViewModel>()
+    let data                    = ObservableCollection<ConfigurationViewModel>()
+    let calculationParameters   = ObservableCollection<ConfigurationViewModel>()
+    let options                 = ObservableCollection<OptionViewModel>()
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
@@ -47,11 +47,10 @@ type MainViewModel() =
         |> Seq.groupBy(fun m -> m.Currency)  // group by currency
         |> Seq.map(fun (ccy, v) -> { Currency = ccy; Value = v |> Seq.map (fun m -> m.Value) |> Seq.sum }) // extract values, calculate a sum
         |> Seq.iter(summary.Add) // add to summary page
+
     let calculateFun _ = do
             trades |> Seq.iter(fun trade -> trade.Calculate(getDataConfiguration (), getCalculationConfiguration ()))
             refreshSummary()
-
-
 
     let calculate = SimpleCommand calculateFun
     let addTrade = SimpleCommand(fun _ -> 
@@ -82,7 +81,6 @@ type MainViewModel() =
     let clearOptions = SimpleCommand(fun _ -> options.Clear () )
 
     (* charting *)
-
     let chartSeries = SeriesCollection()
     let predefinedChartFunctions = [| (fun x -> sin x); (fun x -> x); (fun x -> 2.*x); (fun x -> 2.*x - 3.) |] 
     let addChartSeriesFun _ = do
@@ -204,7 +202,6 @@ type MainViewModel() =
     member this.Options = options
 
     (* charting *)
-
     member this.ChartSeries = chartSeries
     member this.AddChartSeries = addChartSeries
     member this.AddGBMSeries = addGBMSeries

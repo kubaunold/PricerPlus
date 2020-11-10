@@ -275,7 +275,8 @@ type ChartValuationModel (inputs: ChartInputs) =
                     let sumOfSquares : float = List.fold (fun acc elem -> acc  + (elem - rAvg)**2.) 0. rList
                     let historicalVolatilitySquared = float(steps)/(float(years)*(float(steps)-1.)) * sumOfSquares
                     //prepare final result being tuple: (finalStockPrice, realizedVolatility)
-                    let newResult = finalStockPrice
+                    //let newResult = finalStockPrice
+                    let newResult = [finalStockPrice; historicalVolatilitySquared]
                     buildResult (currentResult@[newResult]) (t+1)
             let result = buildResult [] 1
             result
