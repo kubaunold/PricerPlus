@@ -407,13 +407,14 @@
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddOption}" Content="New" Click="Button_Click"/>
                     </StackPanel>
 
-                    <!-- trades grid -->
+                    <!-- options grid -->
 
                     <Grid Grid.Column="1" Grid.Row="1">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="25*"/>
+                            <RowDefinition Height="89*"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
@@ -431,19 +432,19 @@
 
                         <!-- table header -->
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Name"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Maturity"/>
-                        <TextBlock Grid.Row="1" Grid.Column="3" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Currency"/>
-                        <TextBlock Grid.Row="1" Grid.Column="4" Width="180" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Strike"/>
-                        <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSput"/>
-                        <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSputDelta"/>
-                        <TextBlock Grid.Row="1" Grid.Column="7" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BScall"/>
-                        <TextBlock Grid.Row="1" Grid.Column="8" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSCallDelta"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Width="180" Margin="4,4,96,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Name" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Width="180" Margin="4,4,96,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Maturity" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Width="180" Margin="4,4,16,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Currency" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="4" Width="180" Margin="4,4,96,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Strike" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="10,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSput" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="10,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSputDelta" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="7" Width="160" Margin="10,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BScall" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="1" Grid.Column="8" Width="160" Margin="10,4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Right" Text="BSCallDelta" Grid.RowSpan="2"/>
 
 
 
                         <!-- items -->
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Options}" >
+                        <ItemsControl Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Options}" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:OptionViewModel}">
                                     <Grid>

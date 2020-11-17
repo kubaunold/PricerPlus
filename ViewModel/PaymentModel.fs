@@ -1,7 +1,6 @@
 ﻿namespace ViewModel
 
 open System
-open System
 //open MathNet.Numerics.LinearAlgebra
 //open MathNet.Numerics.Distributions
 
@@ -510,7 +509,7 @@ type OptionValuationModel (inputs:OptionValuationInputs) =
             [BScall; BScallDelta; BSput; BSputDelta]
         
         //interestRate as a string
-        let interestRateS = match inputs.Data.TryFind "interestRate::percentage" with
+        let interestRateS = match inputs.Data.TryFind "riskFreeInterestRate::percentage" with
                             | Some rate -> rate
                             | None -> "0"
         //try convert as a number
